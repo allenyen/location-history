@@ -18,7 +18,7 @@ with open(args.output, 'w') as csvfile:
                            float(location['latitudeE7'])/math.pow(10, 7),
                            float(location['longitudeE7'])/math.pow(10, 7),
                            float(location['altitude']),
-                           str(location['activity']['type'])
+                           str(location['activity']['type']))
 
 print('Done! Wrote ' + str(len(locations)) + ' points.')
 
