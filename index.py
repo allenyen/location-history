@@ -14,11 +14,21 @@ with open(args.output, 'w') as csvfile:
     filewriter.writerow(['timestamp', 'latitude', 'longitude', 'altitude','activity'])
     for l, location in enumerate(locations):
       timestamp = datetime.utcfromtimestamp(int(location['timestampMs']) / 1000)
+      activity = ''
+      altitude = ''
+      if 'activity' in location \
+        and len(location['activity']) > 0 \
+        and 'activity' in location['activity'][0] \
+        and len(location['activity'][0]['activity']) > 0 \
+        and 'type' in location['activity'][0]['activity'][0]:
+            activity = str(location['activity'][0]['activity'][0]['type'])
+      if 'altitude' in location:
+        altitude = float(location['altitude'])
       filewriter.writerow([timestamp,
                            float(location['latitudeE7'])/math.pow(10, 7),
                            float(location['longitudeE7'])/math.pow(10, 7),
-                           float(location['altitude']),
-                           str(location['activity']['type']))
+                           altitude,
+                           activity])
 
 print('Done! Wrote ' + str(len(locations)) + ' points.')
 
